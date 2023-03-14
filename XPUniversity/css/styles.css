@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Poppins, sans-serif;
+  background-color: white;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgb(3, 3, 96) 35%,
+    rgb(2, 88, 105) 100%
+  );
+}
+
+.mytopnav {
+  display: flex;
+  height: 60px;
+  background-color: #eeeeee;
+  box-shadow: 5px 9px 14px -1px rgba(0, 0, 0, 0.83);
+  /* border: 1px solid white; */
+  background-color: transparent;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logobox {
+  float: left;
+  color: white;
+  /* border: 1px solid red; */
+}
+
+.logo {
+  width: 100px;
+  /* border: 1px solid yellow; */
+  margin: 1em;
+}
+
+.mynav {
+  width: 70%;
+  /* padding: 10px; */
+  /* border: 1px solid red; */
+  color: white;
+  text-align: right;
+  float: right;
+  /* align-items: center; */
+}
+
+.mynav span a {
+  display: flex;
+  color: white;
+  /* border: 1px solid red; */
+  font-size: 1.3rem;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1em;
+  align-items: center;
+  /* margin-left: 1em; */
+}
+
+.mynav span .fa-solid {
+  margin-right: 0.3em;
+}
+
+.mynav span a:hover {
+  background-color: aqua;
+  color: black;
+  /* content: '';
+    height: 1px;
+    background-color: aqua;
+    position: absolute;
+    top: 50%; */
+  /* left: 50%; */
+}
+
+/* Second Phase */
+
+section {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 3em;
+}
+.slider_box {
+  float: left;
+  width: 70%;
+  /* background-color: black; */
+  height: 400px;
+  position: relative;
+}
+
+.swiper {
+  width: 100%;
+  height: fit-content;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 500px;
+}
+
+.slider_box .fa {
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+}
+
+.list_box {
+  float: right;
+  width: 28%;
+  height: 500px;
+  background-color: red;
+}
