@@ -602,19 +602,19 @@
                       <i class="fa-solid fa-xmark"></i>
                     </button>
                   </div>
-                  <div class="col-12">
-                    <label for="Name" class="form-label">Course Of Study Id:</label>
-                    <input
-                      type="Number"
-                      class="form-control mb-2"
-                      id="inputAddress"
-                      placeholder="e.g. Accounting"
-                      name="courseOfStudyId"
-                    />
-                  </div>
                   <div class="modal-body">
                     <form class="row g-3" id="editDepartment">
                       <p id="error_msg"></p>
+                      <div class="col-12">
+                        <label for="Name" class="form-label mt-3">Course Of Study Id:</label>
+                        <input
+                          type="Number"
+                          class="form-control mb-2"
+                          id="inputAddress"
+                          placeholder="e.g. 1, 2, 3"
+                          name="courseOfStudyId"
+                        />
+                      </div>
                       <div class="col-12">
                           <label for="department" class="form-label">Department:</label>
                           <select name="department" id="Faculty_Edit" class="fs-2 p-1 mb-2">
@@ -742,7 +742,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Search courseOfStudy
+                        Search Course Of Study
                       </h2>
                       <button
                         type="button"
@@ -754,7 +754,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form class="row g-3" id="searchDepartment">
+                      <form class="row g-3" id="searchCourseOfStudy">
                         <div class="col-12">
                             <label for="department" class="form-label">Department Name:</label>
                             <select name="department" id="Faculty_Search" class="fs-2 p-1 mb-2">
@@ -768,7 +768,7 @@
                             type="text"
                             class="form-control mb-2"
                             id="inputAddress"
-                            placeholder="e.g. courseOfStudy of Accounting"
+                            placeholder="e.g. Accounting"
                             name="Name"
                           />
                         </div>
@@ -807,9 +807,65 @@
               Clear Search
             </button>
 
+            <!-- Details Modal -->
+            <div
+            class="modal fade"
+            id="detailModal"
+            tabindex="-1"
+            aria-labelledby="detailModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2 class="modal-title fs-5" id="exampleModalLabel">
+                    Details of Course of Study
+                  </h2>
+                  <button
+                    type="button"
+                    class="btn-close btn-danger pl-2 pr-2"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div class="modal-body" id="detailBody">
+                  <div class="text">
+                    <p id="courseOfStudyDepartment"></p>
+                  </div>
+                    <div class="text">
+                      <p id="courseOfStudyName"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfStudyShortName"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfStudyUniqueId"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfStudyAward"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfDuration"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfRequiredCreditUnits"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfStudyAdvisor"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseOfStudyStatus"></p>
+                    </div>
+                </div>
+              </div>
             </div>
+            </div>
+            <!-- End of Details Modal -->
 
-            
+
+            </div>
 
             <p id="delete_error"></p>            
             <table class="table table-bordered" id="table">

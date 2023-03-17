@@ -20,17 +20,20 @@ class Lecturer{
     async getLecturers(req, res){
         try{
             if(!validation.isBodyValid(req.body)) res.status(400).json({ Error: validation.getError })
-            const { departmentId, status, firstname } = req.body;
-            const retVal = await db.getLecturers(departmentId, status, firstname); 
-            if(retVal.length > 1){
-                res.status(200).send(retVal);
+            const { deptId, status, firstname } = req.body;
+            const retVal = await db.getLecturers(deptId, status, firstname); 
+            // console.log(retVal);
+            if(retVal.length > 0){
+                return res.status(200).send(retVal);
             }
-            res.status(400).json({
+            return res.status(400).json({
+                
                 Error: db.getError() === null ? "DB Response was Null" : db.getError() 
             });
         } catch(error){
-            res.status(400).json({Error: error});
+            console.log(db.getError());
             console.log(error);
+            return res.status(400).json({Error: error});
         }
     }
 
@@ -58,12 +61,12 @@ class Lecturer{
         try{
             const  lecturerId =  req.params.id;
             const retVal = await db.getLecturer(lecturerId);
-            if(retVal.length > 1){
-                res.status(200).send(retVal);
+            if(retVal.length !== null){
+                return res.status(200).send(retVal);
             }
             return res.status(400).json({Error: "Could not find Lecturer with this id"});
         } catch(error){
-            res.status(400).json({Error: error});
+            return res.status(400).json({Error: error});
             console.log(error);
         }
     }

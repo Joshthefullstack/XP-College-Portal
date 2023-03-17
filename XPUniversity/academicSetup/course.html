@@ -83,7 +83,7 @@
           >
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Academic Setups:</h6>
-              <a class="collapse-item" href="./academicSetup/Department.html"
+              <a class="collapse-item" href="./academicSetup/course.html"
                 >Faculties</a
               >
               <a class="collapse-item" href="#">Departments</a>
@@ -304,7 +304,7 @@
                     </div>
                     <div>
                       <div class="small text-gray-500">Facult Screening</div>
-                      Department screening process for all students on the merit
+                      course screening process for all students on the merit
                       list!
                     </div>
                   </a>
@@ -436,7 +436,7 @@
 
           <!-- Beginning of Table -->
           <div class="container-fluid">
-            <h2>Departments</h2>
+            <h2>Course</h2>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
               <!-- Button trigger modal -->
               <button
@@ -445,7 +445,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
-                <i class="fa-solid fa-plus"></i> Add New Departments
+                <i class="fa-solid fa-plus"></i> Add New Courses
               </button>
 
               <!-- Modal -->
@@ -460,7 +460,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        New Department
+                        New Courses
                       </h2>
                       <button
                         type="button"
@@ -475,8 +475,8 @@
                       <form class="row g-3" id="addFaculty">
                         <p id="error_msg"></p>
                         <div class="col-12">
-                            <label for="Faculty" class="form-label">Faculty:</label>
-                            <select name="Faculty" id="Faculty" class="fs-2 p-1 mb-2">
+                            <label for="department" class="form-label">Department:</label>
+                            <select name="department" id="departmentId" class="fs-2 p-1 mb-2">
                                 <!-- Render a dropdown of faculties -->
                                 
                             </select>
@@ -487,18 +487,8 @@
                             type="text"
                             class="form-control mb-2"
                             id="inputAddress"
-                            placeholder="e.g. Department of Arts"
+                            placeholder="e.g. Business Mathematics"
                             name="Name"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="Code" class="form-label">Code</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress2"
-                            placeholder="e.g. ART2023"
-                            name="Code"
                           />
                         </div>
                         <div class="col-md-12">
@@ -510,9 +500,49 @@
                             class="form-control mb-2"
                             name="UniqueId"
                             id="inputCity"
-                            placeholder="e.g. 201ARTS"
+                            placeholder="e.g. 201FBA"
                           />
                         </div>
+                        <div class="col-12">
+                            <label for="Units" class="form-label">Units:</label>
+                            <input
+                              type="number"
+                              class="form-control mb-2"
+                              id="inputAddress"
+                              placeholder="e.g. 1, 2, 3"
+                              name="Units"
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label for="Code" class="form-label">Code:</label>
+                            <input
+                              type="text"
+                              class="form-control mb-2"
+                              id="inputAddress"
+                              placeholder="e.g. FBA101"
+                              name="Code"
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label for="CourseLevel" class="form-label">Course Level:</label>
+                            <input
+                              type="number"
+                              class="form-control mb-2"
+                              id="inputAddress"
+                              placeholder="e.g. 100, 200, 300, 400"
+                              name="CourseLevel"
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label for="CourseSemester" class="form-label">Course Semester:</label>
+                            <input
+                              type="number"
+                              class="form-control mb-2"
+                              id="inputAddress"
+                              placeholder="e.g. 1, 2, 3"
+                              name="CourseSemester"
+                            />
+                          </div>
                         <div class="col-12">
                           <div class="form-check">
                             <input
@@ -541,118 +571,134 @@
 
               <!-- Editing Modal -->
               <div
-                class="modal fade"
-                id="editModal"
-                tabindex="-1"
-                aria-labelledby="editModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Edit Faculty
-                      </h2>
-                      <button
-                        type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <i class="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="row g-3" id="editDepartment">
-                        <p id="error_msg_edit"></p>
-                        <div class="col-12">
-                          <label for="Name" class="form-label"
-                            >Department Id:</label
-                          >
+              class="modal fade"
+              id="editModal"
+              tabindex="-1"
+              aria-labelledby="editModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="exampleModalLabel">
+                      Edit Courses
+                    </h2>
+                    <button
+                      type="button"
+                      class="btn-close btn-danger pl-2 pr-2"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="row g-3" id="editCourse">
+                      <p id="error_msg"></p>
+                      <div class="col-12">
+                        <label for="CourseId" class="form-label">Course Id:</label>
+                        <input
+                          type="number"
+                          class="form-control mb-4"
+                          id="inputAddress"
+                          placeholder="e.g. 1, 2, 3"
+                          name="CourseId"
+                        />
+                      </div>
+                      <div class="col-12">
+                          <label for="department" class="form-label">Department:</label>
+                          <select name="department" id="departmentId_edit" class="fs-2 p-1 mb-2">
+                              <!-- Render a dropdown of faculties -->
+                              
+                          </select>
+                      </div>
+                      <div class="col-12">
+                        <label for="Name" class="form-label">Name:</label>
+                        <input
+                          type="text"
+                          class="form-control mb-2"
+                          id="inputAddress"
+                          placeholder="e.g. Business Mathematics"
+                          name="Name"
+                        />
+                      </div>
+                      <div class="col-md-12">
+                        <label for="UniqueId" class="form-label"
+                          >UniqueId:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control mb-2"
+                          name="UniqueId"
+                          id="inputCity"
+                          placeholder="e.g. 201FBA"
+                        />
+                      </div>
+                      <div class="col-12">
+                          <label for="Units" class="form-label">Units:</label>
                           <input
                             type="number"
-                            class="form-control mb-4"
+                            class="form-control mb-2"
                             id="inputAddress"
                             placeholder="e.g. 1, 2, 3"
-                            name="DepartmentId"
+                            name="Units"
                           />
                         </div>
                         <div class="col-12">
-                            <label for="Faculty" class="form-label">Faculty:</label>
-                            <select name="Faculty" id="Faculty_Edit" class="fs-2 p-1 mb-2">
-                                <!-- Render a dropdown of faculties -->
-                                
-                            </select>
-                        </div>
-                        <div class="col-12">
-                          <label for="Name" class="form-label">Name:</label>
+                          <label for="Code" class="form-label">Code:</label>
                           <input
                             type="text"
                             class="form-control mb-2"
                             id="inputAddress"
-                            placeholder="e.g. Department of Arts"
-                            name="Name"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="Code" class="form-label">Code</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress2"
-                            placeholder="e.g. ART2023"
+                            placeholder="e.g. FBA101"
                             name="Code"
                           />
                         </div>
-                        <div class="col-md-12">
-                          <label for="UniqueId" class="form-label"
-                            >UniqueId:</label
-                          >
+                        <div class="col-12">
+                          <label for="CourseLevel" class="form-label">Course Level:</label>
                           <input
-                            type="text"
+                            type="number"
                             class="form-control mb-2"
-                            name="UniqueId"
-                            id="inputCity"
-                            placeholder="e.g. 201ARTS"
+                            id="inputAddress"
+                            placeholder="e.g. 100, 200, 300, 400"
+                            name="CourseLevel"
                           />
                         </div>
                         <div class="col-12">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="status_checkbox_edit"
-                            />
-                            <label
-                              class="form-check-label mb-2"
-                              for="gridCheck"
-                            >
-                              Status
-                            </label>
-                          </div>
+                          <label for="CourseSemester" class="form-label">Course Semester:</label>
+                          <input
+                            type="number"
+                            class="form-control mb-2"
+                            id="inputAddress"
+                            placeholder="e.g. 1, 2, 3"
+                            name="CourseSemester"
+                          />
                         </div>
-                        <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2">
-                            Submit
-                          </button>
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="status_checkbox_edit"
+                          />
+                          <label
+                            class="form-check-label mb-2"
+                            for="gridCheck"
+                          >
+                            Status
+                          </label>
                         </div>
-                      </form>
-                    </div>
-                    <!-- <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                      Save changes
-                    </button>
-                  </div> -->
+                      </div>
+                      <div class="col-12 text-right">
+                        <button type="submit" class="btn btn-primary mb-2">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
+            </div>
               <!-- End of Editing Modal -->
 
               <button
@@ -676,7 +722,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Search Department
+                        Search Course Of Study
                       </h2>
                       <button
                         type="button"
@@ -688,10 +734,10 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form class="row g-3" id="searchDepartment">
+                      <form class="row g-3" id="searchcourse">
                         <div class="col-12">
-                            <label for="Faculty" class="form-label">Faculty:</label>
-                            <select name="Faculty" id="Faculty_Search" class="fs-2 p-1 mb-2">
+                            <label for="department" class="form-label">Department Name:</label>
+                            <select name="department" id="Faculty_Search" class="fs-2 p-1 mb-2">
                                 <!-- Render a dropdown of faculties -->
                                 
                             </select>
@@ -702,7 +748,7 @@
                             type="text"
                             class="form-control mb-2"
                             id="inputAddress"
-                            placeholder="e.g. Department of Accounting"
+                            placeholder="e.g. Accounting"
                             name="Name"
                           />
                         </div>
@@ -741,18 +787,70 @@
               Clear Search
             </button>
 
+            <!-- Details Modal -->
+            <div
+            class="modal fade"
+            id="detailModal"
+            tabindex="-1"
+            aria-labelledby="detailModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2 class="modal-title fs-5" id="exampleModalLabel">
+                    Details of Course
+                  </h2>
+                  <button
+                    type="button"
+                    class="btn-close btn-danger pl-2 pr-2"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div class="modal-body" id="detailBody">
+                  <div class="text">
+                    <p id="courseDepartment"></p>
+                  </div>
+                    <div class="text">
+                      <p id="courseName"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseUniqueId"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseUnits"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseCode"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseLevel"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseSemester"></p>
+                    </div>
+                    <div class="text">
+                      <p id="courseStatus"></p>
+                    </div>
+                </div>
+              </div>
             </div>
+            </div>
+            <!-- End of Details Modal -->
 
-            
+
+            </div>
 
             <p id="delete_error"></p>            
             <table class="table table-bordered" id="table">
               <thead>
                 <tr>
                   <th scope="col">S/N</th>
-                  <th scope="col">Faculty Name</th>
                   <th scope="col">Department Name</th>
-                  <th scope="col">Code</th>
+                  <th scope="col">Name</th>
                   <th scope="col">Unique Id</th>
                   <th scope="col">Status</th>
                   <th scope="col">Actions</th>
@@ -794,6 +892,6 @@
     <script src="../Assets/js/sb-admin-2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
 
-    <script src="./js/department.js" defer></script>
+    <script src="./js/course.js" defer></script>
   </body>
 </html>

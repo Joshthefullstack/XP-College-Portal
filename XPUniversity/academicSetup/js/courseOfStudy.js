@@ -44,7 +44,6 @@ const renderData = async () => {
             <td>${index + 1}</td>
             <td>${filteredDepartment.map(item => {return item.Name})}</td>
             <td>${courseOfStudy.Name}</td>
-            <td>${courseOfStudy.Code}</td>
             <td>${courseOfStudy.UniqueId}</td>
             <td class=${
               status == "Active" ? "text-success" : "text-danger"
@@ -53,8 +52,12 @@ const renderData = async () => {
                 <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
                 data-bs-target="#editModal">Edit</button>
                 <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deleteCourseOfStudy(${
-                  courseOfStudy.DepartmentId
+                  courseOfStudy.CourseOfStudyId
                 })>Delete</button>
+                <button class="btn btn-primary me-md-2 mr-1" type="button" data-bs-toggle="modal"
+                data-bs-target="#detailModal" onclick=courseOfStudyDetails(${
+                  courseOfStudy.CourseOfStudyId
+                })>Details</button>
             </td>
         `;
   });
@@ -69,6 +72,7 @@ const deleteCourseOfStudy = async (id) => {
       method: "DELETE",
     }
   );
+    
     location.reload();
   
 };
@@ -102,7 +106,7 @@ addForm.addEventListener("submit", async (e) => {
     errorMsg.innerHTML = "Please enter a valid Department id";
     return false;
   }
-  if (newCourseOfStudy.Name.length < 3 || newCourseOfStudy.Code.length == "") {
+  if (newCourseOfStudy.Name.length < 3 || newCourseOfStudy.Name.length == "") {
     errorMsg.innerHTML = "Please enter a valid courseOfStudy name";
     return false;
   }
@@ -150,7 +154,7 @@ editForm.addEventListener("submit", async (e) => {
 
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
-  const editFaculty = {
+  const editCourseOfStudy = {
     CourseOfStudyId: editForm.courseOfStudyId.value,
     DepartmentId: editForm.department.value,
     Name: editForm.Name.value,
@@ -164,42 +168,46 @@ editForm.addEventListener("submit", async (e) => {
     Status: statusCheckbox.value,
   };
 
-  if (newCourseOfStudy.DepartmentId == 0) {
-    errorMsg.innerHTML = "Please enter a valid Department id";
-    return false;
-  }
-  if (newCourseOfStudy.Name.length < 3 || newCourseOfStudy.Code.length == "") {
-    errorMsg.innerHTML = "Please enter a valid courseOfStudy name";
-    return false;
-  }
-  if (newCourseOfStudy.ShortName.length < 3 || newCourseOfStudy.ShortName.length == "") {
-    errorMsg.innerHTML = "Please enter a valid courseOfStudy code";
-    return false;
-  }
-  if (newCourseOfStudy.Award.length < 3 || newCourseOfStudy.Award.length == "") {
-    errorMsg.innerHTML = "Please enter a valid courseOfStudy award";
-    return false;
-  }
-  if (newCourseOfStudy.Duration < 0) {
+  if (editCourseOfStudy.CourseOfStudyId < 1) {
     errorMsg.innerHTML = "Please enter a valid courseOfStudy duration";
     return false;
   }
-  if (newCourseOfStudy.RequiredCreditUnits < 0) {
+  if (editCourseOfStudy.DepartmentId == 0) {
+    errorMsg.innerHTML = "Please enter a valid Department id";
+    return false;
+  }
+  if (editCourseOfStudy.Name.length < 3 || editCourseOfStudy.Name.length == "") {
+    errorMsg.innerHTML = "Please enter a valid courseOfStudy name";
+    return false;
+  }
+  if (editCourseOfStudy.ShortName.length < 3 || editCourseOfStudy.ShortName.length == "") {
+    errorMsg.innerHTML = "Please enter a valid courseOfStudy code";
+    return false;
+  }
+  if (editCourseOfStudy.Award.length < 3 || editCourseOfStudy.Award.length == "") {
+    errorMsg.innerHTML = "Please enter a valid courseOfStudy award";
+    return false;
+  }
+  if (editCourseOfStudy.Duration < 1) {
+    errorMsg.innerHTML = "Please enter a valid courseOfStudy duration";
+    return false;
+  }
+  if (editCourseOfStudy.RequiredCreditUnits < 1) {
     errorMsg.innerHTML = "Please enter a valid courseOfStudy required credit units";
     return false;
   }
-  if (newCourseOfStudy.Advisor.length < 3 || newCourseOfStudy.Advisor.length == "") {
+  if (editCourseOfStudy.Advisor.length < 3 || editCourseOfStudy.Advisor.length == "") {
     errorMsg.innerHTML = "Please enter a valid courseOfStudy advisor";
     return false;
   }
-  if (newCourseOfStudy.UniqueId.length < 3 || newCourseOfStudy.UniqueId.length == "") {
+  if (editCourseOfStudy.UniqueId.length < 3 || editCourseOfStudy.UniqueId.length == "") {
     errorMsg.innerHTML = "Please enter a valid courseOfStudy unique id";
     return false;
   }
 
-  await fetch("http://localhost:8097/api/v1/departments", {
+  await fetch("http://localhost:8097/api/v1/coursesOfStudy", {
     method: "PUT",
-    body: JSON.stringify(editFaculty),
+    body: JSON.stringify(editCourseOfStudy),
     headers: { "Content-Type": "application/json" },
   });
 
@@ -207,9 +215,9 @@ editForm.addEventListener("submit", async (e) => {
 });
 
 // SEARCHING THROUGH FACULTIES
-const searchDepartment = document.getElementById("searchDepartment");
+const searchCourseOfStudy = document.getElementById("searchCourseOfStudy");
 
-searchDepartment.addEventListener("submit", async (e) => {
+searchCourseOfStudy.addEventListener("submit", async (e) => {
   e.preventDefault();
   const statusCheckbox = document.getElementById("status_checkbox_search");
   const errorMsg = document.getElementById("error_msg_search")
@@ -220,8 +228,8 @@ searchDepartment.addEventListener("submit", async (e) => {
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const search = {
-    facultyId: searchDepartment.Faculty.value,
-    name: searchDepartment.Name.value,
+    departmentId: searchCourseOfStudy.department.value,
+    name: searchCourseOfStudy.Name.value,
     status: statusCheckbox.value,
   }
 //   console.log(search)
@@ -251,8 +259,8 @@ searchDepartment.addEventListener("submit", async (e) => {
 
       item.Status > 0 ? status = "Active" : status = "Inactive";
 
-      const filteredFaculty = facultyArray.filter((faculty, index)=>{
-        if(item.FacultyId == faculty.FacultyId){
+      const filteredFaculty = departmentArray.filter((faculty, index)=>{
+        if(item.DepartmentId == faculty.DepartmentId){
             return true;
         }
     })
@@ -261,7 +269,6 @@ searchDepartment.addEventListener("submit", async (e) => {
       <td>${index + 1}</td>
       <td>${filteredFaculty.map(item => {return item.Name})}</td>
       <td>${item.Name}</td>
-      <td>${item.Code}</td>
       <td>${item.UniqueId}</td>
       <td class=${
         status == "Active" ? "text-success" : "text-danger"
@@ -270,7 +277,7 @@ searchDepartment.addEventListener("submit", async (e) => {
           <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
           data-bs-target="#editModal">Edit</button>
           <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deleteFaculty(${
-            item.DepartmentId
+            item.CourseOfStudyId
           })>Delete</button>
       </td>
       `
@@ -284,3 +291,39 @@ const clearSearchBtn = document.getElementById("clear_search_btn");
 clearSearchBtn.addEventListener("click", ()=>{
   location.reload();
 })
+
+// DETAILS OF COURSE OF SRUDY
+const courseOfStudyDetails = async (id) => {
+  const response = await fetch('http://localhost:8097/api/v1/coursesOfStudy/' + id, {
+    method: "GET"
+  })
+
+  let eachCOS = await response.json();
+  let cosArray = [];
+  cosArray.push(eachCOS);
+
+  let status = "";
+
+  cosArray.forEach((item, index)=>{
+
+    item.Status > 0 ? status = "Active" : status = "Inactive";
+
+    const filteredDepartment = departmentArray.filter((department, index)=>{
+      if(item.DepartmentId == department.DepartmentId){
+          return true;
+      }
+  })
+
+    document.getElementById("courseOfStudyDepartment").innerHTML = `Course Of Study Department: ${filteredDepartment.map(item => {return item.Name})}`;
+    document.getElementById("courseOfStudyName").innerHTML = `Course Of Study Name: ${item.Name}`;
+    document.getElementById("courseOfStudyShortName").innerHTML = `Course Of Study Short Name: ${item.ShortName}`;
+    document.getElementById("courseOfStudyUniqueId").innerHTML = `Course Of Study Unique Id: ${item.UniqueId}`;
+    document.getElementById("courseOfStudyAward").innerHTML = `Course Of Study Awards: ${item.Award}`;
+    document.getElementById("courseOfDuration").innerHTML = `Course Of Study Duration: ${item.Duration}`;
+    document.getElementById("courseOfRequiredCreditUnits").innerHTML = `Course Of Study Required Credit Units: ${item.RequiredCreditUnits}`;
+    document.getElementById("courseOfStudyAdvisor").innerHTML = `Course Of Study Advisor: ${item.Advisor}`;
+    document.getElementById("courseOfStudyStatus").innerHTML = `Course Of Study Status: ${status}`;
+
+  })
+   
+}

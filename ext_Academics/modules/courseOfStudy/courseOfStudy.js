@@ -101,11 +101,11 @@ class CourseOfStudy {
         try {
             const courseId = req.params.id;
             const deletedCourseOfStudy = await db.removeCourseOfStudy(courseId)
-            if(deletedCourseOfStudy) res.status(200).json({ IsSuccessFul: true });
-            res.status(400).json({ Error: [] })
+            if(deletedCourseOfStudy) return res.status(200).json({ IsSuccessFul: true });
+            return res.status(400).json({ Error: [] })
         }
         catch (error) {
-            res.status(400).json({ message: error.message });
+            return res.status(400).json({ message: error.message });
             console.log(error)
         }
     }

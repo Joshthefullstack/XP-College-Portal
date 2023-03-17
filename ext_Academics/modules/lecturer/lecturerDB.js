@@ -33,8 +33,10 @@ const getLecturers = async (deptId, status, firstname) => {
       values.push(status);
     }
     query += ' ORDER BY "StaffId" ASC ';
+    // console.log(values)
     const result = await pool.query(query, values);
-    if (result.rows.length > 0) {
+    // console.log(result);
+    if (result?.rows.length > 0) {
       return result.rows;
     }
     return [];
