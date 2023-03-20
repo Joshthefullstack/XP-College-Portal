@@ -2,8 +2,24 @@
 window.addEventListener("DOMContentLoaded", () => renderData());
 
 let facultyArray;
+let realData;
+let departmentId;
 
 const renderData = async () => {
+
+  const head = await fetch("../academicSetup/js/head.js");
+  const response = await head.text();
+  document.getElementById("departmentHead").innerHTML = response;
+
+  const sideBar = await fetch("../academicSetup/js/sidebar.js");
+  const side = await sideBar.text();
+  document.getElementById("departmentSideBar").innerHTML = side;
+
+  const topBar = await fetch("../academicSetup/js/topbar.js");
+  const top = await topBar.text();
+  document.querySelector("#topNav").innerHTML = top;
+
+
   let uri = "http://localhost:8097/api/v1/departments";
 
   const data = await fetch(uri);
@@ -51,7 +67,7 @@ const renderData = async () => {
             }>${status}</td>
             <td>
                 <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
-                data-bs-target="#editModal">Edit</button>
+                data-bs-target="#editModal" onclick=editDepartment(${department.DepartmentId})>Edit</button>
                 <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deleteDepartment(${
                   department.DepartmentId
                 })>Delete</button>
@@ -59,6 +75,11 @@ const renderData = async () => {
         `;
   });
 
+};
+
+const editDepartment = async (id) => {
+  const department = realData.find((department) => department.DepartmentId === id);
+  departmentId = department.DepartmentId;
 };
 
 // DELETING FACULTIES
@@ -126,20 +147,16 @@ editForm.addEventListener("submit", async (e) => {
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const editFaculty = {
-    DepartmentId: editForm.DepartmentId.value,
+    DepartmentId: departmentId,
     FacultyId: editForm.Faculty.value,
     Name: editForm.Name.value,
     Code: editForm.Code.value,
     UniqueId: editForm.UniqueId.value,
     Status: statusCheckbox.value,
   };
-
-  if (
-    typeof editFaculty.DepartmentId !== "string" ||
-    editFaculty.DepartmentId == ""
-  ) {
-    errorMsg.innerHTML = "Please enter a valid department Id";
-  } else if (editFaculty.Name.length < 3 || editFaculty.Code.length == "") {
+ 
+ 
+  if (editFaculty.Name.length < 3 || editFaculty.Code.length == "") {
     errorMsg.innerHTML = "Please enter a valid department name";
   } else if (editFaculty.Code.length < 3 || editFaculty.Code.length == "") {
     errorMsg.innerHTML = "Please enter a valid department code";

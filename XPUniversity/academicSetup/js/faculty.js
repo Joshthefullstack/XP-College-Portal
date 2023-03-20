@@ -1,5 +1,10 @@
+// const { Validator } = require("./Validator");
+
 // GETTING FACULTIES
 window.addEventListener("DOMContentLoaded", () => renderData());
+
+let realData;
+let facultyId;
 
 const renderData = async () => {
   let uri = "http://localhost:8097/api/v1/faculties";
@@ -11,10 +16,22 @@ const renderData = async () => {
 
   let status = "";
 
+  const head = await fetch("../academicSetup/js/head.js");
+  const response = await head.text();
+  document.getElementById("facultyHead").innerHTML = response;
+
+  const sideBar = await fetch("../academicSetup/js/sidebar.js");
+  const side = await sideBar.text();
+  document.getElementById("facultySideBar").innerHTML = side;
+
+  const topBar = await fetch("../academicSetup/js/topbar.js");
+  const top = await topBar.text();
+  document.querySelector("#topNav").innerHTML = top;
+
   realData.forEach((faculty, index) => {
     const row = tbody.insertRow();
 
-    faculty.Status > 0 ? status = "Active" : status = "Inactive";
+    faculty.Status > 0 ? (status = "Active") : (status = "Inactive");
 
     row.innerHTML = `
             <td>${index + 1}</td>
@@ -26,14 +43,20 @@ const renderData = async () => {
             }>${status}</td>
             <td>
                 <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
-                data-bs-target="#editModal">Edit</button>
+                data-bs-target="#editModal" onclick=editFaculty(${
+                  faculty.FacultyId
+                })>Edit</button>
                 <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deleteFaculty(${
                   faculty.FacultyId
                 })>Delete</button>
             </td>
         `;
   });
+};
 
+const editFaculty = async (id) => {
+  const faculty = realData.find((faculty) => faculty.FacultyId === id);
+  facultyId = faculty.FacultyId;
 };
 
 // DELETING FACULTIES
@@ -44,10 +67,13 @@ const deleteFaculty = async (id) => {
       method: "DELETE",
     }
   );
-  if(responses.status == 400){
-    document.getElementById("delete_error").innerHTML = "There are departments dependents on this faculty";
-    document.getElementById("delete_error").classList.add("bg-danger", "text-light", "p-1");
-  }else{
+  if (responses.status == 400) {
+    document.getElementById("delete_error").innerHTML =
+      "There are departments dependents on this faculty";
+    document
+      .getElementById("delete_error")
+      .classList.add("bg-danger", "text-light", "p-1");
+  } else {
     location.reload();
   }
 };
@@ -60,7 +86,9 @@ addForm.addEventListener("submit", async (e) => {
   const statusCheckbox = document.getElementById("status_checkbox");
   const errorMsg = document.getElementById("error_msg");
 
-  statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
+  statusCheckbox.checked
+    ? (statusCheckbox.value = 1)
+    : (statusCheckbox.value = 0);
 
   const newFaculty = {
     Name: addForm.Name.value,
@@ -100,10 +128,12 @@ editForm.addEventListener("submit", async (e) => {
   const statusCheckbox = document.getElementById("status_checkbox_edit");
   const errorMsg = document.getElementById("error_msg_edit");
 
-  statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
+  statusCheckbox.checked
+    ? (statusCheckbox.value = 1)
+    : (statusCheckbox.value = 0);
 
   const editFaculty = {
-    FacultyId: editForm.FacultyId.value,
+    FacultyId: facultyId,
     Name: editForm.Name.value,
     Code: editForm.Code.value,
     UniqueId: editForm.UniqueId.value,
@@ -146,40 +176,42 @@ searchFaculty.addEventListener("submit", async (e) => {
   let tableBody = table.lastElementChild;
   tableBody.innerHTML = "";
 
-  statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
+  statusCheckbox.checked
+    ? (statusCheckbox.value = 1)
+    : (statusCheckbox.value = 0);
 
   const search = {
     name: searchFaculty.Name.value,
-    status: statusCheckbox.value
-  }
+    status: statusCheckbox.value,
+  };
 
-  const response = await fetch('http://localhost:8097/api/v1/faculties/', {
-    method: 'POST',
+  const response = await fetch("http://localhost:8097/api/v1/faculties/", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(search),
   });
 
-  if(response.status == 400){
+  if (response.status == 400) {
     const Error = await response.json();
-    if(Error.Error == ""){
-      document.getElementById("error").innerHTML = "This faculty does not exist";
-      document.getElementById("error").classList.add("text-bg-danger")
-
+    if (Error.Error == "") {
+      document.getElementById("error").innerHTML =
+        "This faculty does not exist";
+      document.getElementById("error").classList.add("text-bg-danger");
     }
   }
 
-  if(response.status == 200){
+  if (response.status == 200) {
     document.getElementById("error").innerHTML = "";
     const searchData = await response.json();
 
     let status = "";
 
-    searchData.forEach((item, index)=>{
+    searchData.forEach((item, index) => {
       const row = tableBody.insertRow();
 
-      item.Status > 0 ? status = "Active" : status = "Inactive";
+      item.Status > 0 ? (status = "Active") : (status = "Inactive");
 
       row.innerHTML = `
       <td>${index + 1}</td>
@@ -196,17 +228,13 @@ searchFaculty.addEventListener("submit", async (e) => {
             item.FacultyId
           })>Delete</button>
       </td>
-      `
-    })
+      `;
+    });
   }
-
-  
-  
-  
 });
 
 const clearSearchBtn = document.getElementById("clear_search_btn");
 
-clearSearchBtn.addEventListener("click", ()=>{
+clearSearchBtn.addEventListener("click", () => {
   location.reload();
-})
+});

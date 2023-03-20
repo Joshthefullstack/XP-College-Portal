@@ -2,8 +2,23 @@
 window.addEventListener("DOMContentLoaded", () => renderData());
 
 let departmentArray;
+let realData;
+let courseId;
 
 const renderData = async () => {
+
+  const head = await fetch("../academicSetup/js/head.js");
+  const response = await head.text();
+  document.getElementById("courseHead").innerHTML = response;
+
+  const sideBar = await fetch("../academicSetup/js/sidebar.js");
+  const side = await sideBar.text();
+  document.getElementById("courseSideBar").innerHTML = side;
+
+  const topBar = await fetch("../academicSetup/js/topbar.js");
+  const top = await topBar.text();
+  document.querySelector("#topNav").innerHTML = top;
+
   let uri = "http://localhost:8097/api/v1/courses";
 
   const data = await fetch(uri);
@@ -50,7 +65,7 @@ const renderData = async () => {
             }>${status}</td>
             <td>
                 <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
-                data-bs-target="#editModal">Edit</button>
+                data-bs-target="#editModal" onclick=editCourse(${course.CourseId})>Edit</button>
                 <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deleteCourse(${
                   course.CourseId
                 })>Delete</button>
@@ -62,6 +77,11 @@ const renderData = async () => {
         `;
   });
 
+};
+
+const editCourse = async (id) => {
+  const course = realData.find((course) => course.CourseId === id);
+  courseId = course.CourseId;
 };
 
 // DELETING FACULTIES
@@ -150,7 +170,7 @@ editForm.addEventListener("submit", async (e) => {
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const editCourse = {
-    CourseId: editForm.CourseId.value,
+    CourseId: courseId,
     DepartmentId: editForm.department.value,
     Name: editForm.Name.value,
     UniqueId: editForm.UniqueId.value,
