@@ -51,13 +51,13 @@ id="accordionSidebar"
   >
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Academic Setups:</h6>
-      <a class="collapse-item" href="./academicSetup/faculty.html"
+      <a class="collapse-item" href="../academicSetup/faculty.html"
         >Faculties</a
       >
-      <a class="collapse-item" href="#">Departments</a>
-      <a class="collapse-item" href="#">Course of Studies</a>
-      <a class="collapse-item" href="#">Courses</a>
-      <a class="collapse-item" href="#">Lecturers</a>
+      <a class="collapse-item" href="../academicSetup/department.html">Departments</a>
+      <a class="collapse-item" href="../academicSetup/courseOfStudy.html">Course of Studies</a>
+      <a class="collapse-item" href="../academicSetup/course.html">Courses</a>
+      <a class="collapse-item" href="../academicSetup/lecturer.html">Lecturers</a>
     </div>
   </div>
 </li>
