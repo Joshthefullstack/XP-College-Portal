@@ -190,10 +190,7 @@ editForm.addEventListener("submit", async (e) => {
     Status: statusCheckbox.value,
   };
 
-  if (editCourseOfStudy.CourseOfStudyId < 1) {
-    errorMsg.innerHTML = "Please enter a valid courseOfStudy duration";
-    return false;
-  }
+
   if (editCourseOfStudy.DepartmentId == 0) {
     errorMsg.innerHTML = "Please enter a valid Department id";
     return false;
