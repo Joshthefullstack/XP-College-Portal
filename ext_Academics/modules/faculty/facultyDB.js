@@ -3,7 +3,8 @@ let errMsg = "";
 
 const getAllFaculties = async () => {
   try {
-    const result = await pool.query('SELECT * FROM "AcadSchema"."Faculty" ORDER BY "FacultyId" ASC')
+    const result = await pool.query('SELECT * FROM "AcadSchema"."Faculty" ORDER BY "FacultyId" ASC');
+    console.log(result);
     return result.rows;
   } catch (error) {
     console.log(error);
@@ -88,6 +89,7 @@ const addFaculty = async (faculty) => {
 const editFaculty = async (faculty) => {
   try {
     const result = await pool.query('UPDATE "AcadSchema"."Faculty" SET "Name" = $1, "UniqueId" = $2, "Code" = $3, "Status" = $4 WHERE "FacultyId" = $5 RETURNING "FacultyId"', [faculty.Name, faculty.UniqueId, faculty.Code, faculty.Status, faculty.FacultyId]);
+    console.log(result.rows)
     if (result.rows.length > 0) {
       return result.rows[0];
     } else {

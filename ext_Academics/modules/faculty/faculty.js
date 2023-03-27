@@ -7,6 +7,7 @@ class Faculty {
     try {
       if(!validation.isBodyValid(req.body)) res.status(400).json({ Error: validation.getError })
       const retVal = await db.getAllFaculties();
+      console.log(retVal)
       if (retVal == null) {
         return res.status(400).json({ Error: db.getError() ? "DB Response was Null" : db.getError() });
       }

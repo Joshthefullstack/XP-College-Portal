@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head id="lecturerHead">
+  <head id="head">
   </head>
   <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
       <!-- Sidebar -->
-      <aside id="lecturerSideBar" class="bg-gradient-primary">
+      <aside id="sideBar" class="bg-gradient-primary">
       </aside>
       <!-- End of Sidebar -->
 
@@ -21,6 +21,58 @@
           <!-- Beginning of Table -->
           <div class="container-fluid">
             <h2>Lecturers</h2>
+            <div class="dropdown dropend" >
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter Lecturers
+              </button>
+              <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton" style="width: 35vw;">
+                <form class="row g-3" id="searchLecturer">
+                  <div class="col-12">
+                      <label for="department" class="form-label">Department Name:</label>
+                      <select name="department" id="Faculty_Search" class="form-control-sm">
+                          <!-- Render a dropdown of faculties -->
+                      </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="Firstname" class="form-label">First Name:</label>
+                    <input
+                      type="text"
+                      class="form-control mb-2"
+                      id="inputAddress"
+                      placeholder="e.g. Okoronkwo"
+                      name="Firstname"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="status_checkbox_search"
+                      />
+                      <label
+                        class="form-check-label mb-2"
+                        for="gridCheck"
+                      >
+                        Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">
+                      Search
+                    </button>
+                    <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="clear_search_btn"
+                  >
+                    Reset
+                  </button>
+                  </div>
+                </form>
+              </div>
+            </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
               <!-- Button trigger modal -->
               <button
@@ -28,6 +80,7 @@
                 class="btn btn-primary mr-3"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                id="addBtn"
               >
                 <i class="fa-solid fa-plus"></i> Add New Lecturers
               </button>
@@ -52,7 +105,6 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       >
-                        <i class="fa-solid fa-xmark"></i>
                       </button>
                     </div>
                     <div class="modal-body">
@@ -60,7 +112,7 @@
                         <p id="error_msg"></p>
                         <div class="col-12">
                             <label for="department" class="form-label">Department:</label>
-                            <select name="department" id="departmentId" class="fs-2 p-1 mb-2">
+                            <select name="department" id="departmentId" class="form-control-sm">
                                 <!-- Render a dropdown of faculties -->
                                 
                             </select>
@@ -69,7 +121,7 @@
                             <label for="Surname" class="form-label">Surname:</label>
                             <input
                               type="text"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. Adedeji"
                               name="Surname"
@@ -79,7 +131,7 @@
                           <label for="FirstName" class="form-label">First Name:</label>
                           <input
                             type="text"
-                            class="form-control mb-2"
+                            class="form-control"
                             id="inputAddress"
                             placeholder="e.g. Okorokoro"
                             name="FirstName"
@@ -89,7 +141,7 @@
                             <label for="OtherName" class="form-label">Other Names:</label>
                             <input
                               type="text"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. Okorokoro"
                               name="OtherName"
@@ -101,7 +153,7 @@
                           >
                           <input
                             type="text"
-                            class="form-control mb-2"
+                            class="form-control"
                             name="StaffId"
                             id="inputCity"
                             placeholder="e.g. 1, 2, 3"
@@ -115,7 +167,7 @@
                               id="status_checkbox"
                             />
                             <label
-                              class="form-check-label mb-2"
+                              class="form-check-label"
                               for="gridCheck"
                             >
                               Status
@@ -132,194 +184,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Editing Modal -->
-              <div
-              class="modal fade"
-              id="editModal"
-              tabindex="-1"
-              aria-labelledby="editModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h2 class="modal-title fs-5" id="exampleModalLabel">
-                      Edit Lecturers
-                    </h2>
-                    <button
-                      type="button"
-                      class="btn-close btn-danger pl-2 pr-2"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form class="row g-3" id="editLecturer">
-                      <p id="error_msg_edit"></p>
-                      <div class="col-12">
-                          <label for="department" class="form-label">Department:</label>
-                          <select name="department" id="departmentId_edit" class="fs-2 p-1 mb-2">
-                              <!-- Render a dropdown of faculties -->
-                              
-                          </select>
-                      </div>
-                      <div class="col-12">
-                          <label for="Surname" class="form-label">Surname:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Adedeji"
-                            name="Surname"
-                          />
-                        </div>
-                      <div class="col-12">
-                        <label for="FirstName" class="form-label">First Name:</label>
-                        <input
-                          type="text"
-                          class="form-control mb-2"
-                          id="inputAddress"
-                          placeholder="e.g. Okorokoro"
-                          name="FirstName"
-                        />
-                      </div>
-                      <div class="col-12">
-                          <label for="OtherName" class="form-label">Other Names:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Okorokoro"
-                            name="OtherName"
-                          />
-                        </div>
-                      <div class="col-md-12">
-                        <label for="StaffId" class="form-label"
-                          >Staff Id:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control mb-2"
-                          name="StaffId"
-                          id="inputCity"
-                          placeholder="e.g. 1, 2, 3"
-                        />
-                      </div>
-                      <div class="col-12">
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="status_checkbox_edit"
-                          />
-                          <label
-                            class="form-check-label mb-2"
-                            for="gridCheck"
-                          >
-                            Status
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-primary mb-2">
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-              <!-- End of Editing Modal -->
-
-              <button
-                class="btn btn-primary mr-3"
-                type="button"
-                data-bs-target="#searchModal"
-                data-bs-toggle="modal"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-              </button>
-
-              <!-- Search Modal -->
-              <div
-                class="modal fade"
-                id="searchModal"
-                tabindex="-1"
-                aria-labelledby="searchModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Search Lecturer
-                      </h2>
-                      <button
-                        type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <i class="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="row g-3" id="searchLecturer">
-                        <div class="col-12">
-                            <label for="department" class="form-label">Department Name:</label>
-                            <select name="department" id="Faculty_Search" class="fs-2 p-1 mb-2">
-                                <!-- Render a dropdown of faculties -->
-                                
-                            </select>
-                        </div>
-                        <div class="col-12">
-                          <label for="Firstname" class="form-label">First Name:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Okoronkwo"
-                            name="Firstname"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="status_checkbox_search"
-                            />
-                            <label
-                              class="form-check-label mb-2"
-                              for="gridCheck"
-                            >
-                              Status
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2" data-bs-dismiss="modal" aria-label="Close">
-                            Search
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of search modal -->
-
-              <button
-              class="btn btn-primary"
-              type="button"
-              id="clear_search_btn"
-            >
-              Clear Search
-            </button>
 
             <!-- Details Modal -->
             <div
@@ -341,7 +205,6 @@
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   >
-                    <i class="fa-solid fa-xmark"></i>
                   </button>
                 </div>
                 <div class="modal-body" id="detailBody">
@@ -420,6 +283,7 @@
     <script src="../Assets/js/sb-admin-2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
 
+    <script src="./js/validator.js"></script>
     <script src="./js/lecturer.js" defer></script>
   </body>
 </html>

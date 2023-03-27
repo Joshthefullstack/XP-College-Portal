@@ -4,91 +4,69 @@ window.addEventListener("DOMContentLoaded", () => renderData());
 let departmentArray;
 let realData;
 let lecturerId;
+let show;
+const addForm = document.getElementById("addFaculty");
+const errorMsg = document.getElementById("error_msg");
+const tbody = document.getElementById("tbody");
+const validate = new validator();
+let apiEndpoint = "http://192.168.17.220:8097/api/v1/lecturers";
 
 const renderData = async () => {
-
-  const head = await fetch("../academicSetup/js/head.js");
-  const response = await head.text();
-  document.getElementById("lecturerHead").innerHTML = response;
-
-  const sideBar = await fetch("../academicSetup/js/sidebar.js");
-  const side = await sideBar.text();
-  document.getElementById("lecturerSideBar").innerHTML = side;
-
-  const topBar = await fetch("../academicSetup/js/topbar.js");
-  const top = await topBar.text();
-  document.querySelector("#topNav").innerHTML = top;
-
-
-  let uri = "http://localhost:8097/api/v1/lecturers";
-
-  const data = await fetch(uri);
+  validate.populatePage();
+  const data = await fetch(apiEndpoint);
   realData = await data.json();
 
-  const departmentSelect = document.getElementById("departmentId");
-  const departmentSelect_Edit = document.getElementById("departmentId_edit");
-  const departmentSelect_Search = document.getElementById("Faculty_Search");
-  const department = await fetch("http://localhost:8097/api/v1/departments");
+  const department = await fetch("http://192.168.17.220:8097/api/v1/departments");
   departmentArray = await department.json();
 
-  const tbody = document.getElementById("tbody");
-  
-  let startCode = '<option value="0">-- Please select a department --</option>'
-
-  const selectOption = departmentArray.map((item, index)=>{
-    return  `<option value="${item.DepartmentId}">${item.Name}</option>`;
-  })
-  departmentSelect.innerHTML = startCode + selectOption.join("");
-  departmentSelect_Edit.innerHTML = startCode + selectOption.join("");
-  departmentSelect_Search.innerHTML = startCode + selectOption.join("");
-
+  populateDropDown()
 
   let status = "";
 
   realData.forEach((lecturer, index) => {
-    const row = tbody.insertRow();
-
-    lecturer.Status > 0 ? status = "Active" : status = "Inactive";
-
-    const filteredDepartment = departmentArray.filter((department, index)=>{
-        if(lecturer.DepartmentId == department.DepartmentId){
-            return true;
-        }
-    });
-
-    row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${filteredDepartment.map(item => {return item.Name})}</td>
-            <td>${lecturer.Surname}</td>
-            <td>${lecturer.FirstName}</td>
-            <td class=${
-              status == "Active" ? "text-success" : "text-danger"
-            }>${status}</td>
-            <td>
-                <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
-                data-bs-target="#editModal" onclick=editLecturer(${lecturer.LecturerId})>Edit</button>
-                <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deletelecturer(${
-                  lecturer.LecturerId
-                })>Delete</button>
-                <button class="btn btn-primary me-md-2 mr-1" type="button" data-bs-toggle="modal"
-                data-bs-target="#detailModal" onclick=lecturerDetails(${
-                  lecturer.LecturerId
-                })>Details</button>
-            </td>
-        `;
+        renderTable(lecturer, index, status)
   });
 
 };
 
+
+const populateDropDown = () => {
+  const departmentSelect = document.getElementById("departmentId");
+  const departmentSelect_Search = document.getElementById("Faculty_Search");
+
+  let startCode = '<option value="0">-- Please select a department --</option>'
+
+  const selectOption = departmentArray.map(item=>{ return  `<option value="${item.DepartmentId}">${item.Name}</option>`; })
+  departmentSelect.innerHTML = startCode + selectOption.join("");
+  departmentSelect_Search.innerHTML = startCode + selectOption.join("");
+}
+
 const editLecturer = async (id) => {
+  document.getElementById("exampleModalLabel").innerHTML = "Edit Lecturers";
   const lecturer = realData.find((lecturer) => lecturer.LecturerId === id);
   lecturerId = lecturer.LecturerId;
+  show = false;
+  addForm.department.value = lecturer.DepartmentId;
+  addForm.Surname.value = lecturer.Surname;
+  addForm.FirstName.value = lecturer.FirstName;
+  addForm.OtherName.value = lecturer.OtherNames;
+  addForm.StaffId.value = lecturer.StaffId;
 };
+
+document.getElementById("addBtn").addEventListener("click", ()=>{
+  document.getElementById("exampleModalLabel").innerHTML = "Add Lecturers";
+  show = true;
+  addForm.department.value = 0;
+  addForm.Surname.value = "";
+  addForm.FirstName.value = "";
+  addForm.OtherName.value = "";
+  addForm.StaffId.value = "";
+})
 
 // DELETING FACULTIES
 const deletelecturer = async (id) => {
   const responses = await fetch(
-    "http://localhost:8097/api/v1/lecturers/" + id,
+    apiEndpoint + "/" + id,
     {
       method: "DELETE",
     }
@@ -98,130 +76,83 @@ const deletelecturer = async (id) => {
   
 };
 
-// FORM HANDLING
-const addForm = document.getElementById("addFaculty");
-
-addForm.addEventListener("submit", async (e) => {
+const createLecturer = async (e) => {
   e.preventDefault();
   const statusCheckbox = document.getElementById("status_checkbox");
-  const errorMsg = document.getElementById("error_msg");
-
-
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const newLecturer = {
-    DepartmentId: addForm.department.value,
+    DepartmentId: Number(addForm.department.value),
     Surname: addForm.Surname.value,
     FirstName: addForm.FirstName.value,
-    OtherName: addForm.OtherName.value,
+    OtherNames: addForm.OtherName.value,
     StaffId: addForm.StaffId.value,
-    Status: statusCheckbox.value,
+    Status: Number(statusCheckbox.value),
   };
 
   // check for errors in the form
-  if (newLecturer.DepartmentId == 0) {
-    errorMsg.innerHTML = "Please enter a valid Department id";
-    return false;
-  }
-  if (newLecturer.Surname.length < 3 || newLecturer.Surname.length == "") {
-    errorMsg.innerHTML = "Please enter a valid lecturer surname";
-    return false;
-  }
-  if (newLecturer.FirstName.length < 3 || newLecturer.FirstName.length == "") {
-    errorMsg.innerHTML = "Please enter a valid lecturer first name";
-    return false;
-  }
-  if (newLecturer.OtherName.length < 3 || newLecturer.OtherName.length == "") {
-    errorMsg.innerHTML = "Please enter a valid lecturer other name";
-    return false;
-  }
-  if (newLecturer.StaffId < 1) {
-    errorMsg.innerHTML = "Please enter a valid lecturer staff id";
-    return false;
-  }
+  const validateInput = validation(newLecturer);
+  if(!validateInput){return false}
 
-
-  await fetch("http://localhost:8097/api/v1/lecturers/add", {
+  await fetch(apiEndpoint + "/add", {
     method: "POST",
     body: JSON.stringify(newLecturer),
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
   });
 
   location.reload();
-});
+}
 
-// EDITING FACULTIES
-const editForm = document.getElementById("editLecturer");
-
-editForm.addEventListener("submit", async (e) => {
+const updateLecturer = async (e) => {
   e.preventDefault();
-  const statusCheckbox = document.getElementById("status_checkbox_edit");
-  const errorMsg = document.getElementById("error_msg_edit");
-
+  const statusCheckbox = document.getElementById("status_checkbox");
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const editLecturer = {
     LecturerId: lecturerId,
-    DepartmentId: editForm.department.value,
-    Surname: editForm.Surname.value,
-    FirstName: editForm.FirstName.value,
-    OtherName: editForm.OtherName.value,
-    StaffId: editForm.StaffId.value,
-    Status: statusCheckbox.value,
+    DepartmentId: Number(addForm.department.value),
+    Surname: addForm.Surname.value,
+    FirstName: addForm.FirstName.value,
+    OtherNames: addForm.OtherName.value,
+    StaffId: addForm.StaffId.value,
+    Status: Number(statusCheckbox.value),
   };
 
-    // check for errors in the form
-    if (editLecturer.DepartmentId == 0) {
-        errorMsg.innerHTML = "Please enter a valid Department id";
-        return false;
-      }
-      if (editLecturer.Surname.length < 3 || editLecturer.Surname.length == "") {
-        errorMsg.innerHTML = "Please enter a valid lecturer surname";
-        return false;
-      }
-      if (editLecturer.FirstName.length < 3 || editLecturer.FirstName.length == "") {
-        errorMsg.innerHTML = "Please enter a valid lecturer first name";
-        return false;
-      }
-      if (editLecturer.OtherName.length < 3 || editLecturer.OtherName.length == "") {
-        errorMsg.innerHTML = "Please enter a valid lecturer other name";
-        return false;
-      }
-      if (editLecturer.StaffId < 1) {
-        errorMsg.innerHTML = "Please enter a valid lecturer staff id";
-        return false;
-      }
+  // check for errors in the form
+  const validateInput = validation(editLecturer);
+  if(!validateInput){return false}
 
-
-  await fetch("http://localhost:8097/api/v1/lecturers", {
+  await fetch(apiEndpoint, {
     method: "PUT",
     body: JSON.stringify(editLecturer),
     headers: { "Content-Type": "application/json" },
   });
 
   location.reload();
+}
+
+// FORM HANDLING
+addForm.addEventListener("submit", async (e) => {
+    show ? createLecturer(e) : updateLecturer(e)
 });
 
 // SEARCHING THROUGH FACULTIES
 const searchLecturer = document.getElementById("searchLecturer");
-
 searchLecturer.addEventListener("submit", async (e) => {
   e.preventDefault();
   const statusCheckbox = document.getElementById("status_checkbox_search");
   const errorMsg = document.getElementById("error_msg_search")
-  const table = document.getElementById("table");
-  let tableBody = table.lastElementChild;
-  tableBody.innerHTML = "";
+  tbody.innerHTML = "";
 
   statusCheckbox.checked ? statusCheckbox.value = 1 : statusCheckbox.value = 0;
 
   const search = {
-    deptId: searchLecturer.department.value,
-    firstname: searchLecturer.Firstname.value,
-    status: statusCheckbox.value,
+    DepartmentId: searchLecturer.department.value,
+    FirstName: searchLecturer.Firstname.value,
+    Status: statusCheckbox.value,
   }
 
-  const response = await fetch('http://localhost:8097/api/v1/lecturers', {
+  const response = await fetch(apiEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -229,52 +160,45 @@ searchLecturer.addEventListener("submit", async (e) => {
     body: JSON.stringify(search)
   });
 
-  if(response.status == 400){
+  if(!response.ok){
     document.getElementById("error").innerHTML = "This lecturer does not exist";
-  }
-
-  if(response.status == 200){
+  }else{
     document.getElementById("error").innerHTML = "";
     errorMsg.innerHTML = "";
     const searchData = await response.json();
-
     let status = "";
 
     searchData.forEach((lecturer, index)=>{
-      const row = tableBody.insertRow();
-
-      lecturer.Status > 0 ? status = "Active" : status = "Inactive";
-
-      const filteredDepartment = departmentArray.filter((faculty, index)=>{
-        if(lecturer.DepartmentId == faculty.DepartmentId){
-            return true;
-        }
-    })
-
-      row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${filteredDepartment.map(item => {return item.Name})}</td>
-      <td>${lecturer.Surname}</td>
-      <td>${lecturer.FirstName}</td>
-      <td class=${
-        status == "Active" ? "text-success" : "text-danger"
-      }>${status}</td>
-      <td>
-          <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
-          data-bs-target="#editModal">Edit</button>
-          <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deletelecturer(${
-            lecturer.LecturerId
-          })>Delete</button>
-          <button class="btn btn-primary me-md-2 mr-1" type="button" data-bs-toggle="modal"
-          data-bs-target="#detailModal" onclick=lecturerDetails(${
-            lecturer.LecturerId
-          })>Details</button>
-      </td>
-      `
+        renderTable(lecturer, index, status)
     })
   }
-  
 });
+
+const renderTable = (lecturer, index, status) => {
+  const row = tbody.insertRow();
+  lecturer.Status > 0 ? status = "Active" : status = "Inactive";
+  const filteredDepartment = departmentArray.find((department) => department.DepartmentId === lecturer.DepartmentId);
+  row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${filteredDepartment.Name}</td>
+          <td>${lecturer.Surname}</td>
+          <td>${lecturer.FirstName}</td>
+          <td class=${
+            status == "Active" ? "text-success" : "text-danger"
+          }>${status}</td>
+          <td>
+              <button class="btn btn-success me-md-2 mr-1" type="button" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" onclick=editLecturer(${lecturer.LecturerId})>Edit</button>
+              <button class="btn btn-danger me-md-2 mr-1" type="button" onclick=deletelecturer(${
+                lecturer.LecturerId
+              })>Delete</button>
+              <button class="btn btn-primary me-md-2 mr-1" type="button" data-bs-toggle="modal"
+              data-bs-target="#detailModal" onclick=lecturerDetails(${
+                lecturer.LecturerId
+              })>Details</button>
+          </td>
+      `;
+}
 
 const clearSearchBtn = document.getElementById("clear_search_btn");
 
@@ -283,7 +207,7 @@ clearSearchBtn.addEventListener("click", ()=>{
 })
 
 const lecturerDetails = async (id) => {
-  const response = await fetch('http://localhost:8097/api/v1/lecturers/' + id, {
+  const response = await fetch(apiEndpoint + "/" + id, {
     method: "GET"
   })
 
@@ -294,22 +218,23 @@ const lecturerDetails = async (id) => {
   let status = "";
 
   cosArray.forEach((item, index)=>{
-
     item.Status > 0 ? status = "Active" : status = "Inactive";
-
-    const filteredDepartment = departmentArray.filter((department, index)=>{
-      if(item.DepartmentId == department.DepartmentId){
-          return true;
-      }
-  })
-
-    document.getElementById("lecturerDepartment").innerHTML = `Lecturer Department: ${filteredDepartment.map(item => {return item.Name})}`;
+    const filteredDepartment = departmentArray.find((department) => department.DepartmentId === item.DepartmentId);
+    document.getElementById("lecturerDepartment").innerHTML = `Lecturer Department: ${filteredDepartment.Name}`;
     document.getElementById("lecturerName").innerHTML = `Lecturer Name: ${item.FirstName}`;
     document.getElementById("lecturerSurname").innerHTML = `Lecturer Surname: ${item.Surname}`;
-    document.getElementById("lecturerOtherName").innerHTML = `Lecturer Other Names: ${item.OtherName}`;
+    document.getElementById("lecturerOtherName").innerHTML = `Lecturer Other Names: ${item.OtherNames}`;
     document.getElementById("lecturerStaffId").innerHTML = `Lecturer StaffId: ${item.StaffId}`;
     document.getElementById("lecturerStatus").innerHTML = `Lecturer Status: ${status}`;
-
   })
-   
+}
+
+// VALIDATION SYSTEM
+const validation = (lecturerDetails) => {
+  if (!validate.minimumInteger(lecturerDetails.DepartmentId, 1, "Department Id")) { errorMsg.innerHTML = validate.getError(); return false;}
+  if (!validate.minLength(lecturerDetails.Surname, 3, "Lecturer Surname")) { errorMsg.innerHTML = validate.getError(); return false;}
+  if (!validate.minLength(lecturerDetails.FirstName, 3, "Lecturer First Name")) { errorMsg.innerHTML = validate.getError(); return false;}
+  if (!validate.minLength(lecturerDetails.OtherNames, 3, "Lecturer Other Names")) { errorMsg.innerHTML = validate.getError(); return false;}
+  if (!validate.minLength(lecturerDetails.StaffId, 3, "Lecturer StaffId")) { errorMsg.innerHTML = validate.getError(); return false;}
+  return true;
 }

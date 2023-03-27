@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head id="courseOfStudyHead">
+  <head id="head">
     
   </head>
   <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
       <!-- Sidebar -->
-      <aside id="courseOfStudySideBar" class="bg-gradient-primary">
+      <aside id="sideBar" class="bg-gradient-primary">
       </aside>
       <!-- End of Sidebar -->
 
@@ -22,6 +22,61 @@
           <!-- Beginning of Table -->
           <div class="container-fluid">
             <h2>Course of Study</h2>
+            <div class="dropdown dropend" >
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter Course Of Study
+              </button>
+              <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton" style="width: 35vw;">
+                <form class="row g-3" id="searchCourseOfStudy">
+                  <div class="col-12">
+                      <label for="department" class="form-label">Department Name:</label>
+                      <select name="department" id="Faculty_Search" class="p-1 mb-2 form-control-sm">
+                          <!-- Render a dropdown of faculties -->
+                          
+                      </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="Name" class="form-label">Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputAddress"
+                      placeholder="e.g. Accounting"
+                      name="Name"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="status_checkbox_search"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="gridCheck"
+                      >
+                        Status
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                      Search
+                    </button>
+                    <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="clear_search_btn"
+                  >
+                    Reset
+                  </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
               <!-- Button trigger modal -->
               <button
@@ -29,6 +84,7 @@
                 class="btn btn-primary mr-3"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                id="addBtn"
               >
                 <i class="fa-solid fa-plus"></i> Add New Course Of Studies
               </button>
@@ -49,11 +105,10 @@
                       </h2>
                       <button
                         type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
+                        class="btn-close btn-danger"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       >
-                        <i class="fa-solid fa-xmark"></i>
                       </button>
                     </div>
                     <div class="modal-body">
@@ -61,7 +116,7 @@
                         <p id="error_msg"></p>
                         <div class="col-12">
                             <label for="department" class="form-label">Department:</label>
-                            <select name="department" id="departmentId" class="fs-2 p-1 mb-2">
+                            <select name="department" id="departmentId" class="p-1 form-control-sm">
                                 <!-- Render a dropdown of faculties -->
                                 
                             </select>
@@ -70,7 +125,7 @@
                           <label for="Name" class="form-label">Name:</label>
                           <input
                             type="text"
-                            class="form-control mb-2"
+                            class="form-control"
                             id="inputAddress"
                             placeholder="e.g. Accounting"
                             name="Name"
@@ -80,7 +135,7 @@
                             <label for="ShortName" class="form-label">Short Name:</label>
                             <input
                               type="text"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. ACC"
                               name="ShortName"
@@ -92,7 +147,7 @@
                           >
                           <input
                             type="text"
-                            class="form-control mb-2"
+                            class="form-control"
                             name="UniqueId"
                             id="inputCity"
                             placeholder="e.g. 201ACC"
@@ -102,7 +157,7 @@
                             <label for="Award" class="form-label">Award:</label>
                             <input
                               type="text"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. Best in Accounting(Ph.D)"
                               name="Award"
@@ -110,19 +165,15 @@
                           </div>
                           <div class="col-12">
                             <label for="Duration" class="form-label">Duration:</label>
-                            <input
-                              type="number"
-                              class="form-control mb-2"
-                              id="inputAddress"
-                              placeholder="e.g. 1, 2, 3"
-                              name="Duration"
-                            />
+                            <select name="Duration" id="duration" class="p-1 mb-3 mt-3 form-control-sm">
+                              
+                            </select>
                           </div>
                           <div class="col-12">
                             <label for="RequiredCreditUnits" class="form-label">Required Credit Units:</label>
                             <input
                               type="number"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. 20, 30"
                               name="RequiredCreditUnits"
@@ -132,7 +183,7 @@
                             <label for="Advisor" class="form-label">Advisor:</label>
                             <input
                               type="text"
-                              class="form-control mb-2"
+                              class="form-control"
                               id="inputAddress"
                               placeholder="e.g. Mr. Seyi"
                               name="Advisor"
@@ -146,7 +197,7 @@
                               id="status_checkbox"
                             />
                             <label
-                              class="form-check-label mb-2"
+                              class="form-check-label"
                               for="gridCheck"
                             >
                               Status
@@ -154,7 +205,7 @@
                           </div>
                         </div>
                         <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2">
+                          <button type="submit" class="btn btn-primary">
                             Submit
                           </button>
                         </div>
@@ -163,234 +214,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Editing Modal -->
-              <div
-              class="modal fade"
-              id="editModal"
-              tabindex="-1"
-              aria-labelledby="editModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h2 class="modal-title fs-5" id="exampleModalLabel">
-                      Edit Course Of Study
-                    </h2>
-                    <button
-                      type="button"
-                      class="btn-close btn-danger pl-2 pr-2"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form class="row g-3" id="editDepartment">
-                      <p id="error_msg_edit"></p>
-                      <div class="col-12">
-                        <label for="Name" class="form-label mt-3">Course Of Study Id:</label>
-                        <input
-                          type="Number"
-                          class="form-control mb-2"
-                          id="inputAddress"
-                          placeholder="e.g. 1, 2, 3"
-                          name="courseOfStudyId"
-                        />
-                      </div>
-                      <div class="col-12">
-                          <label for="department" class="form-label">Department:</label>
-                          <select name="department" id="Faculty_Edit" class="fs-2 p-1 mb-2">
-                              <!-- Render a dropdown of faculties -->
-                              
-                          </select>
-                      </div>
-                      <div class="col-12">
-                        <label for="Name" class="form-label">Name:</label>
-                        <input
-                          type="text"
-                          class="form-control mb-2"
-                          id="inputAddress"
-                          placeholder="e.g. Accounting"
-                          name="Name"
-                        />
-                      </div>
-                      <div class="col-12">
-                          <label for="ShortName" class="form-label">Short Name:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. ACC"
-                            name="ShortName"
-                          />
-                        </div>
-                      <div class="col-md-12">
-                        <label for="UniqueId" class="form-label"
-                          >UniqueId:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control mb-2"
-                          name="UniqueId"
-                          id="inputCity"
-                          placeholder="e.g. 201ACC"
-                        />
-                      </div>
-                      <div class="col-12">
-                          <label for="Award" class="form-label">Award:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Best in Accounting(Ph.D)"
-                            name="Award"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="Duration" class="form-label">Duration:</label>
-                          <input
-                            type="number"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. 1, 2, 3"
-                            name="Duration"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="RequiredCreditUnits" class="form-label">Required Credit Units:</label>
-                          <input
-                            type="number"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. 20, 30"
-                            name="RequiredCreditUnits"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="Advisor" class="form-label">Advisor:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Mr. Seyi"
-                            name="Advisor"
-                          />
-                        </div>
-                      <div class="col-12">
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="status_checkbox_edit"
-                          />
-                          <label
-                            class="form-check-label mb-2"
-                            for="gridCheck"
-                          >
-                            Status
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-primary mb-2">
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-              <!-- End of Editing Modal -->
-
-              <button
-                class="btn btn-primary mr-3"
-                type="button"
-                data-bs-target="#searchModal"
-                data-bs-toggle="modal"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-              </button>
-
-              <!-- Search Modal -->
-              <div
-                class="modal fade"
-                id="searchModal"
-                tabindex="-1"
-                aria-labelledby="searchModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Search Course Of Study
-                      </h2>
-                      <button
-                        type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <i class="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="row g-3" id="searchCourseOfStudy">
-                        <div class="col-12">
-                            <label for="department" class="form-label">Department Name:</label>
-                            <select name="department" id="Faculty_Search" class="fs-2 p-1 mb-2">
-                                <!-- Render a dropdown of faculties -->
-                                
-                            </select>
-                        </div>
-                        <div class="col-12">
-                          <label for="Name" class="form-label">Name:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Accounting"
-                            name="Name"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="status_checkbox_search"
-                            />
-                            <label
-                              class="form-check-label mb-2"
-                              for="gridCheck"
-                            >
-                              Status
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2" data-bs-dismiss="modal" aria-label="Close">
-                            Search
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of search modal -->
-
-              <button
-              class="btn btn-primary"
-              type="button"
-              id="clear_search_btn"
-            >
-              Clear Search
-            </button>
 
             <!-- Details Modal -->
             <div
@@ -449,7 +272,6 @@
             </div>
             <!-- End of Details Modal -->
 
-
             </div>
 
             <p id="delete_error"></p>            
@@ -500,6 +322,7 @@
     <script src="../Assets/js/sb-admin-2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
 
+    <script src="./js/validator.js"></script>
     <script src="./js/courseOfStudy.js" defer></script>
   </body>
 </html>

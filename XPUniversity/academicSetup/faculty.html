@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head id="facultyHead">
+  <head id="head">
   </head>
   <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
       <!-- Sidebar -->
-      <aside id="facultySideBar" class="bg-gradient-primary">
+      <aside id="sideBar" class="bg-gradient-primary">
       </aside>
       <!-- End of Sidebar -->
 
@@ -20,9 +20,61 @@
 
           <!-- Beginning of Table -->
           <div class="container-fluid">
-            <h2>Faculties</h2>
+            <h2 class="mb-2">Faculties</h2>
+            <div class="dropdown dropend" >
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter Faculties
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <form id="searchFaculty" >
+                  <div class="mb-4" >
+                    <div class="col-12">
+                      <label for="Name" class="form-label mr-2">Name:</label>
+                      <input
+                        type="text"
+                        class="form-control mb-2"
+                        id="inputAddress"
+                        placeholder="e.g. Faculty of Arts"
+                        name="Name"
+                      />
+                    </div>
+                    <div class="col-3">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="status_checkbox_search"
+                          name="Status"
+                        />
+                        <label
+                          class="form-check-label mb-2"
+                          for="gridCheck"
+                        >
+                          Status
+                        </label>
+                      </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-3" style="display: flex;">
+                      <button type="submit" class="btn btn-primary mr-2">
+                        Filter
+                      </button>
+                      <button
+                      class="btn btn-primary"
+                      type="button"
+                      id="clear_search_btn"
+                    >
+                      Reset
+                    </button>
+                    </div>
+                  </div>
+  
+              </form>
+              </div>
+            </div>
+            
+            
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-
 
               <!-- Button trigger modal -->
               <button
@@ -30,6 +82,7 @@
                 class="btn btn-primary mr-3"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                id="addBtn"
               >
                 <i class="fa-solid fa-plus"></i> Add New Faculties
               </button>
@@ -54,10 +107,9 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       >
-                        <i class="fa-solid fa-xmark"></i>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modalBody">
                       <form class="row g-3" id="addFaculty">
                         <p id="error_msg"></p>
                         <div class="col-12">
@@ -97,92 +149,8 @@
                             <input
                               class="form-check-input"
                               type="checkbox"
-                              id="status_checkbox"
-                            />
-                            <label
-                              class="form-check-label mb-2"
-                              for="gridCheck"
-                            >
-                              Status
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2">
-                            Submit
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <!-- Editing Modal -->
-              <div
-                class="modal fade"
-                id="editModal"
-                tabindex="-1"
-                aria-labelledby="editModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Edit Faculty
-                      </h2>
-                      <button
-                        type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <i class="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="row g-3" id="editFaculty" >
-                        <p id="error_msg_edit"></p>
-                        <div class="col-12">
-                          <label for="Name" class="form-label">Name:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Faculty of Arts"
-                            name="Name"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <label for="Code" class="form-label">Code</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress2"
-                            placeholder="e.g. ART2023"
-                            name="Code"
-                          />
-                        </div>
-                        <div class="col-md-12">
-                          <label for="UniqueId" class="form-label"
-                            >UniqueId:</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            name="UniqueId"
-                            id="inputCity"
-                            placeholder="e.g. 201ARTS"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
                               id="status_checkbox_edit"
+                              name="Status"
                             />
                             <label
                               class="form-check-label mb-2"
@@ -199,89 +167,10 @@
                         </div>
                       </form>
                     </div>
+
                   </div>
                 </div>
               </div>
-              <!-- End of Editing Modal -->
-
-              <button
-                class="btn btn-primary mr-3"
-                type="button"
-                data-bs-target="#searchModal"
-                data-bs-toggle="modal"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-              </button>
-
-              <!-- Search Modal -->
-              <div
-                class="modal fade"
-                id="searchModal"
-                tabindex="-1"
-                aria-labelledby="searchModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title fs-5" id="exampleModalLabel">
-                        Search Faculty
-                      </h2>
-                      <button
-                        type="button"
-                        class="btn-close btn-danger pl-2 pr-2"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <i class="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="row g-3" id="searchFaculty">
-                        <div class="col-12">
-                          <label for="Name" class="form-label">Name:</label>
-                          <input
-                            type="text"
-                            class="form-control mb-2"
-                            id="inputAddress"
-                            placeholder="e.g. Faculty of Arts"
-                            name="Name"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="status_checkbox_search"
-                            />
-                            <label
-                              class="form-check-label mb-2"
-                              for="gridCheck"
-                            >
-                              Status
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-12 text-right">
-                          <button type="submit" class="btn btn-primary mb-2" data-bs-dismiss="modal" aria-label="Close">
-                            Search
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of search modal -->
-
-              <button
-              class="btn btn-primary"
-              type="button"
-              id="clear_search_btn"
-            >
-              Clear Search
-            </button>
 
             </div>
 
@@ -307,6 +196,8 @@
             <p id="error"></p>
             <p id="error_msg_search"></p>
           </div>
+
+          
         </div>
         <!-- End of Main Content -->
 
@@ -334,7 +225,9 @@
     <!-- Custom scripts for all pages-->
     <script src="../Assets/js/sb-admin-2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
+    <script src="./js/validator.js" defer></script>
     <script src="./js/faculty.js" defer></script>
   </body>
 </html>
